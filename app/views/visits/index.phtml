@@ -1,0 +1,58 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+
+<?php use Phalcon\Tag; ?>
+
+<div class="page-header">
+	<h1>Visits</h1>
+</div>
+
+<?php echo $this->getContent(); ?>
+
+<div class="row">
+	<table class="table table-bordered">
+		<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Date Of Created</th>
+
+			<th></th>
+			<th></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($page->items as $visit): ?>
+			<tr>
+				<td><?php echo $visit->id ?></td>
+				<td><?php echo $visit->name ?></td>
+				<td><?php echo $visit->date_created ?></td>
+
+				<td><?php echo $this->tag->linkTo(array("visits/edit/" . $visit->id, "Edit")); ?></td>
+				<td><?php echo $this->tag->linkTo(array("visits/delete/" . $visit->id, "Delete")); ?></td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>
+
+<div class="row">
+	<div class="col-sm-1">
+		<p class="pagination" style="line-height: 1.42857;padding: 6px 12px;">
+			<?php echo $page->current, "/", $page->total_pages ?>
+		</p>
+	</div>
+	<div class="col-sm-11">
+		<nav>
+			<ul class="pagination">
+				<li><?php echo $this->tag->linkTo("visits", "First") ?></li>
+				<li><?php echo $this->tag->linkTo("visits?page=" . $page->before, "Previous") ?></li>
+				<li><?php echo $this->tag->linkTo("visits?page=" . $page->next, "Next") ?></li>
+				<li><?php echo $this->tag->linkTo("visits?page=" . $page->last, "Last") ?></li>
+			</ul>
+		</nav>
+	</div>
+</div>
