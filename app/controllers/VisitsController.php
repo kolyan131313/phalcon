@@ -201,6 +201,7 @@ class VisitsController extends ControllerBase
     public function insertAction()
     {
         $name = $this->request->getPost("name");
+        //$name = "Nick";
         if ($this->request->isPost() && $name) {
             try {
                 $transactionManager = new TransactionManager();
