@@ -18,21 +18,11 @@ class VisitsController extends ControllerBase
         $numberPage = $this->request->getQuery("page", "int");
 
         $visits = Visits::find();
-        if (count($visits) == 0) {
-            $this->flash->notice("The search did not find any visits");
-
-            $this->dispatcher->forward(array(
-                "controller" => "visits",
-                "action" => "index"
-            ));
-
-            return;
-        }
 
         $paginator = new Paginator(array(
-            'data' => $visits,
+            'data'  => $visits,
             'limit' => 10,
-            'page' => $numberPage
+            'page'  => $numberPage
         ));
 
         $this->view->page = $paginator->getPaginate();
@@ -152,7 +142,7 @@ class VisitsController extends ControllerBase
 
             $this->dispatcher->forward(array(
                 'controller' => "visits",
-                'action' => 'search'
+                'action' => 'index'
             ));
 
             return;
@@ -163,6 +153,43 @@ class VisitsController extends ControllerBase
         $this->dispatcher->forward(array(
             'controller' => "visits",
             'action' => "index"
+        ));
+    }
+
+    /**
+     * Delete all visits
+     *
+     */
+    public function deleteAllAction()
+    {
+        $visits = Visits::find();
+
+        if (!$visits->delete()) {
+
+            foreach ($visits->getMessages() as $message) {
+                $this->flash->error($message);
+            }
+
+            $this->dispatcher->forward(array(
+                'controller' => "visits",
+                'action'     => 'index'
+            ));
+
+            return;
+        } else if (!$visits->count()) {
+            $this->flash->success("Visits can't delete in this case");
+            $this->dispatcher->forward(array(
+                'controller' => "visits",
+                'action'     => 'index'
+            ));
+            return;
+        }
+
+        $this->flash->success("Visits was deleted successfully");
+
+        $this->dispatcher->forward(array(
+            'controller' => "visits",
+            'action'     => "index"
         ));
     }
 

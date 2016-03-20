@@ -36,13 +36,12 @@ $di->set('router', function () {
 	$router->setDefaultController("visits");
 	$router->setDefaultAction("index");
 
-	$router->notFound(
+	/*$router->notFound(
 		array(
 			"controller" => "error",
 			"action"     => "error404"
 		)
-	);
-
+	);*/
 
 	return $router;
 });

@@ -6,6 +6,15 @@
 
 <?php use Phalcon\Tag; ?>
 
+<div class="row">
+    <nav>
+        <ul class="pager">
+            <li class="next"><?php echo $this->tag->linkTo(array("visits/deleteAll/", "Clear All")); ?></li>
+            <li class="previous"><?php echo $this->tag->linkTo(array("visits", "Main")); ?></li>
+        </ul>
+    </nav>
+</div>
+
 <div class="page-header">
 	<h1>Visits</h1>
 </div>
@@ -18,6 +27,8 @@
 		<tr>
 			<th>Id</th>
 			<th>Name</th>
+            <th>IP</th>
+            <th>User agent</th>
 			<th>Date Of Created</th>
 
 			<th></th>
@@ -25,16 +36,24 @@
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($page->items as $visit): ?>
-			<tr>
-				<td><?php echo $visit->id ?></td>
-				<td><?php echo $visit->name ?></td>
-				<td><?php echo $visit->date_created ?></td>
+        <?php if($page->items && count($page->items) > 0) : ?>
+            <?php foreach ($page->items as $visit): ?>
+                <tr>
+                    <td><?php echo $visit->id ?></td>
+                    <td><?php echo $visit->name ?></td>
+                    <td><?php echo $visit->ip_addr ?></td>
+                    <td><?php echo $visit->useragent ?></td>
+                    <td><?php echo $visit->date_created ?></td>
 
-				<td><?php echo $this->tag->linkTo(array("visits/edit/" . $visit->id, "Edit")); ?></td>
-				<td><?php echo $this->tag->linkTo(array("visits/delete/" . $visit->id, "Delete")); ?></td>
-			</tr>
-		<?php endforeach; ?>
+                    <td><?php echo $this->tag->linkTo(array("visits/edit/" . $visit->id, "Edit")); ?></td>
+                    <td><?php echo $this->tag->linkTo(array("visits/delete/" . $visit->id, "Delete")); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <tr>
+                <td colspan="7">Visits data is empty</td>
+            </tr>
+        <?php endif;?>
 		</tbody>
 	</table>
 </div>
