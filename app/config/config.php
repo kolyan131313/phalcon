@@ -11,6 +11,13 @@ return new \Phalcon\Config(array(
         'dbname'      => 'source_b',
         'charset'     => 'utf8',
     ),
+    /*'database' => array(
+        'adapter'     => 'Postgresql',
+        'host'        => 'localhost',
+        'username'    => 'postgres',
+        'password'    => 'Ntvyjnf45',
+        'dbname'      => 'source_b'
+    ),*/
     'application' => array(
         'controllersDir' => APP_PATH . '/app/controllers/',
         'modelsDir'      => APP_PATH . '/app/models/',

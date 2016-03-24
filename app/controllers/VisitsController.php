@@ -3,7 +3,8 @@
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
-
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\File as FileAdapter;
 
 class VisitsController extends ControllerBase
 {
@@ -201,13 +202,12 @@ class VisitsController extends ControllerBase
     public function insertAction()
     {
         $name = $this->request->getPost("name");
-        //$name = "Nick";
-        if ($this->request->isPost() && $name) {
+        $date = $this->request->getPost("date");
+        if ($this->request->isPost() && $name && $date) {
             try {
                 $transactionManager = new TransactionManager();
                 $transaction = $transactionManager->get();
 
-                $dateTime = new \DateTime();
                 $ipAddress = $this->request->getServerAddress();
                 $userAgent = $this->request->getUserAgent();
 
@@ -216,7 +216,7 @@ class VisitsController extends ControllerBase
                 $visits->name         = $name;
                 $visits->useragent    = $userAgent;
                 $visits->ip_addr      = $ipAddress;
-                $visits->date_created = $dateTime->format('Y-m-d H:i:s');
+                $visits->date_created = $date;
                 if (!$visits->save()) {
                     $transaction->rollback("Can't save this row");
                 }
